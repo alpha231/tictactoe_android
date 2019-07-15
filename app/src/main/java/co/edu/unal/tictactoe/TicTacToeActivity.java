@@ -29,7 +29,7 @@ public class TicTacToeActivity extends AppCompatActivity {
         return true;
     }*/
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -49,15 +49,19 @@ public class TicTacToeActivity extends AppCompatActivity {
         mGame = new TicTacToeGame();
         startNewGame();
     }
+
+    // Set up the game board.
     private void startNewGame() {
 
         mGame.clearBoard();
 
+        // Reset all buttons
         for (int i = 0; i < mBoardButtons.length; i++) {
-            mBoardButtons[i].setText("");
+            mBoardButtons[i].setText(" ");
             mBoardButtons[i].setEnabled(true);
             mBoardButtons[i].setOnClickListener(new ButtonClickListener(i));
         }
+        // Human goes first
         mInfoTextView.setText("You go first.");
     }
 
@@ -66,14 +70,11 @@ public class TicTacToeActivity extends AppCompatActivity {
     private class ButtonClickListener implements View.OnClickListener {
         int location;
 
-        private ButtonClickListener(int location) {
+        public ButtonClickListener(int location) {
             this.location = location;
         }
 
         public void onClick(View view) {
-            if (mGameOver) {
-                return;
-            }
             if (mBoardButtons[location].isEnabled()) {
                 setMove(TicTacToeGame.HUMAN_PLAYER, location);
 
@@ -94,7 +95,7 @@ public class TicTacToeActivity extends AppCompatActivity {
                 } else if (winner == 2) {
                     mInfoTextView.setText("You won!");
                     mGameOver = true;
-                } else {
+                } else if (winner == 3) {
                     mInfoTextView.setText("Android won!");
                     mGameOver = true;
                 }
@@ -104,6 +105,9 @@ public class TicTacToeActivity extends AppCompatActivity {
 
     private void setMove(char player, int location) {
 
+        if (mGameOver) {
+            return;
+        }
         mGame.setMove(player, location);
         mBoardButtons[location].setEnabled(false);
         mBoardButtons[location].setText(String.valueOf(player));
