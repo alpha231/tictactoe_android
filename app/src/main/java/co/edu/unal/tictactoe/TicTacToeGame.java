@@ -1,38 +1,24 @@
 package co.edu.unal.tictactoe;
 
-import android.view.View;
-
-import java.util.InputMismatchException;
 import java.util.Random;
-import java.util.Scanner;
 
-public class TicTacToeGame {
+class TicTacToeGame {
     private char[] mBoard = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
-    public static final int BOARD_SIZE = 9;
+    static final int BOARD_SIZE = 9;
 
-    public static final char HUMAN_PLAYER = 'X';
-    public static final char COMPUTER_PLAYER = '#';
-    public static final char OPEN_SPOT = ' ';
+    static final char HUMAN_PLAYER = 'X';
+    static final char COMPUTER_PLAYER = 'O';
+    private static final char OPEN_SPOT = ' ';
 
     private Random mRand;
 
-    public TicTacToeGame() {
+    TicTacToeGame() {
 
         // Seed the random number generator
         mRand = new Random();
     }
 
-    private void displayBoard() {
-        System.out.println();
-        System.out.println(mBoard[0] + " | " + mBoard[1] + " | " + mBoard[2]);
-        System.out.println("-----------");
-        System.out.println(mBoard[3] + " | " + mBoard[4] + " | " + mBoard[5]);
-        System.out.println("-----------");
-        System.out.println(mBoard[6] + " | " + mBoard[7] + " | " + mBoard[8]);
-        System.out.println();
-    }
-
-    public int checkForWinner() {
+    int checkForWinner() {
 
         // Check horizontal wins
         for (int i = 0; i <= 6; i += 3) {
@@ -85,7 +71,7 @@ public class TicTacToeGame {
         return 1;
     }
 
-    public int getComputerMove() {
+    int getComputerMove() {
         int move;
 
         // First see if there's a move O can make to win
@@ -126,13 +112,13 @@ public class TicTacToeGame {
         return move;
     }
 
-    public void clearBoard() {
+    void clearBoard() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             mBoard[i] = OPEN_SPOT;
         }
     }
 
-    public void setMove(char player, int location) {
+    void setMove(char player, int location) {
         mBoard[location] = player;
     }
 }

@@ -4,28 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:screenOrientation="portrait"
     tools:context=".TicTacToeActivity">
 
-    <TextView
-        android:id="@+id/information"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="120dp"
-        android:gravity="center_horizontal"
-        android:text="info"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TableLayout
+        android:id="@+id/table"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="321dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -38,21 +23,21 @@
                 android:id="@+id/one"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="1"
+                android:text="@string/_1"
                 android:textSize="70sp" />
 
             <Button
                 android:id="@+id/two"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="2"
+                android:text="@string/_2"
                 android:textSize="70sp" />
 
             <Button
                 android:id="@+id/three"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="3"
+                android:text="@string/_3"
                 android:textSize="70sp" />
         </TableRow>
 
@@ -64,21 +49,21 @@
                 android:id="@+id/four"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="4"
+                android:text="@string/_4"
                 android:textSize="70sp" />
 
             <Button
                 android:id="@+id/five"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="5"
+                android:text="@string/_5"
                 android:textSize="70sp" />
 
             <Button
                 android:id="@+id/six"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="6"
+                android:text="@string/_6"
                 android:textSize="70sp" />
         </TableRow>
 
@@ -90,23 +75,36 @@
                 android:id="@+id/seven"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="7"
+                android:text="@string/_7"
                 android:textSize="70sp" />
 
             <Button
                 android:id="@+id/eight"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="8"
+                android:text="@string/_8"
                 android:textSize="70sp" />
 
             <Button
                 android:id="@+id/nine"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
-                android:text="9"
+                android:text="@string/_9"
                 android:textSize="70sp" />
         </TableRow>
 
     </TableLayout>
+
+    <TextView
+        android:id="@+id/information"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text=""
+        android:textAlignment="center"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/table" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
