@@ -41,7 +41,7 @@ public class TicTacToeActivity extends AppCompatActivity {
                 };
                 // TODO: Set selected, an integer (0 to n-1), for the Difficulty dialog.
                 // selected is the radio button that should be selected.
-                xxbuilder.setSingleChoiceItems(levels, selected,
+                builder.setSingleChoiceItems(levels, selected,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int item) {
                                 dialog.dismiss(); // Close dialog
