@@ -3,6 +3,19 @@ package co.edu.unal.tictactoe;
 import java.util.Random;
 
 class TicTacToeGame {
+
+    // The computer's difficulty levels
+    public enum DifficultyLevel {Easy, Harder, Expert}
+
+    // Current difficulty level
+    private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
+
+    public DifficultyLevel getDifficultyLevel() {
+        return mDifficultyLevel;
+    }
+    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+        mDifficultyLevel = difficultyLevel;
+    }
     private char[] mBoard = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
     static final int BOARD_SIZE = 9;
 
@@ -72,7 +85,19 @@ class TicTacToeGame {
     }
 
     int getComputerMove() {
-        int move;
+        int move = -1;
+        if (mDifficultyLevel == DifficultyLevel.Easy)
+            move = getRandomMove();
+        else if (mDifficultyLevel == DifficultyLevel.Harder) {
+            move = getWinningMove();
+        }
+        else if (mDifficultyLevel == DifficultyLevel.Expert) {
+            move = getWinningMove();
+        }
+        return move;
+    }
+
+    private int getWinningMove() {
 
         // First see if there's a move O can make to win
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -80,12 +105,15 @@ class TicTacToeGame {
                 char curr = mBoard[i];
                 mBoard[i] = COMPUTER_PLAYER;
                 if (checkForWinner() == 3) {
-                    System.out.println("Computer is moving to " + (i + 1));
                     return i;
                 } else
                     mBoard[i] = curr;
             }
         }
+        return getBlockingMove();
+    }
+
+    private int getBlockingMove() {
 
         // See if there's a move O can make to block X from winning
         for (int i = 0; i < BOARD_SIZE; i++) {
@@ -94,19 +122,21 @@ class TicTacToeGame {
                 mBoard[i] = HUMAN_PLAYER;
                 if (checkForWinner() == 2) {
                     mBoard[i] = COMPUTER_PLAYER;
-                    System.out.println("Computer is moving to " + (i + 1));
                     return i;
                 } else
                     mBoard[i] = curr;
             }
         }
+        return getRandomMove();
+    }
+
+    private int getRandomMove() {
+        int move;
 
         // Generate random move
         do {
             move = mRand.nextInt(BOARD_SIZE);
         } while (mBoard[move] == HUMAN_PLAYER || mBoard[move] == COMPUTER_PLAYER);
-
-        System.out.println("Computer is moving to " + (move + 1));
 
         mBoard[move] = COMPUTER_PLAYER;
         return move;
