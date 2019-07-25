@@ -21,11 +21,11 @@ class TicTacToeGame {
     // Current difficulty level
     private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
 
-    public DifficultyLevel getDifficultyLevel() {
+    DifficultyLevel getDifficultyLevel() {
         return mDifficultyLevel;
     }
 
-    public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
+    void setDifficultyLevel(DifficultyLevel difficultyLevel) {
         mDifficultyLevel = difficultyLevel;
     }
 
@@ -33,7 +33,7 @@ class TicTacToeGame {
 
     static final char HUMAN_PLAYER = 'X';
     static final char COMPUTER_PLAYER = 'O';
-    private static final char OPEN_SPOT = ' ';
+    static final char OPEN_SPOT = ' ';
 
     private Random mRand;
 
