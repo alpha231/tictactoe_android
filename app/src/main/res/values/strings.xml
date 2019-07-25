@@ -30,4 +30,5 @@
     <string name="ties">Ties</string>
     <string name="android">Android</string>
     <string name="defaultWins">0</string>
+    <string name="reset_scores">Reset Scores</string>
 </resources>

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -31,6 +32,7 @@ public class TicTacToeActivity extends AppCompatActivity {
     private int mHumanWins;
     private int mComputerWins;
     private int mTies;
+    private SharedPreferences mPrefs;
     static final int DIALOG_DIFFICULTY_ID = 0;
     static final int DIALOG_QUIT_ID = 1;
 
@@ -38,6 +40,12 @@ public class TicTacToeActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mPrefs = getSharedPreferences("ttt_prefs", MODE_PRIVATE);
+
+        mHumanWins=mPrefs.getInt("mHumanWins",0);
+        mComputerWins=mPrefs.getInt("mComputerWins",0);
+        mTies=mPrefs.getInt("mTies",0);
 
         mBoardButtons = new Button[TicTacToeGame.BOARD_SIZE];
 
@@ -95,7 +103,6 @@ public class TicTacToeActivity extends AppCompatActivity {
                         // TODO: Set the diff level of mGame based on which item was selected.
                         TicTacToeGame.DifficultyLevel newDiff = TicTacToeGame.DifficultyLevel.valueOf(levels[item].toString());
                         mGame.setDifficultyLevel(newDiff);
-                        //mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.valueOf(levels[item].toString()) );
                         // Display the selected difficulty level
                         Toast.makeText(getApplicationContext(), levels[item], Toast.LENGTH_SHORT).show();
                         startNewGame();
@@ -138,6 +145,13 @@ public class TicTacToeActivity extends AppCompatActivity {
             //case R.id.settings:
             //    startActivityForResult(new Intent(this, Settings.class), 0);
                 return true;
+            case R.id.reset:
+                mHumanWins=0;
+                mComputerWins=0;
+                mTies=0;
+                displayScores();
+                startNewGame();
+                return true;
             case R.id.quit:
                 showDialog(DIALOG_QUIT_ID);
                 return true;
@@ -167,9 +181,6 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         outState.putCharArray("board", mGame.getBoardState());
         outState.putBoolean("mGameOver", mGameOver);
-        outState.putInt("mHumanWins", mHumanWins);
-        outState.putInt("mComputerWins", mComputerWins);
-        outState.putInt("mTies", mTies);
         outState.putCharSequence("info", mInfoTextView.getText());
         //outState.putChar("mGoFirst", mGoFirst);
     }
@@ -182,9 +193,6 @@ public class TicTacToeActivity extends AppCompatActivity {
         mGame.setBoardState(mb);
         mGameOver = savedInstanceState.getBoolean("mGameOver");
         mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
-        mHumanWins=savedInstanceState.getInt("mHumanWins");
-        mComputerWins=savedInstanceState.getInt("mComputerWins");
-        mTies=savedInstanceState.getInt("mTies");
         //mGoFirst=savedInstanceState.getChar("mGoFirst");
         assert mb != null;
         for (int i = 0; i < mb.length; i++) {
@@ -192,9 +200,18 @@ public class TicTacToeActivity extends AppCompatActivity {
                 setMove(mb[i], i);
             }
         }
-        mTiesScoreTextView.setText(String.valueOf(mTies));
-        mHumanScoreTextView.setText(String.valueOf(mHumanWins));
-        mAndroidScoreTextView.setText(String.valueOf(mComputerWins));
+        displayScores();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+
+        SharedPreferences.Editor ed=mPrefs.edit();
+        ed.putInt("mHumanWins", mHumanWins);
+        ed.putInt("mComputerWins", mComputerWins);
+        ed.putInt("mTies", mTies);
+        ed.apply();
     }
 
     // Set up the game board.
@@ -241,21 +258,19 @@ public class TicTacToeActivity extends AppCompatActivity {
                 else if (winner == 1) {
                     mInfoTextView.setText(R.string.result_tie);
                     mTies++;
-                    mTiesScoreTextView.setText(String.valueOf(mTies));
                     mGameOver = true;
                 } else if (winner == 2) {
                     mInfoTextView.setText(R.string.result_human_wins);
                     mHumanWins++;
-                    mHumanScoreTextView.setText(String.valueOf(mHumanWins));
                     //String defaultMessage = getResources().getString(R.string.result_human_wins);
                     //mInfoTextView.setText(mPrefs.getString("victory_message", defaultMessage));
                     mGameOver = true;
                 } else if (winner == 3) {
                     mInfoTextView.setText(R.string.result_computer_wins);
                     mComputerWins++;
-                    mAndroidScoreTextView.setText(String.valueOf(mComputerWins));
                     mGameOver = true;
                 }
+                displayScores();
             }
         }
     }
@@ -272,5 +287,11 @@ public class TicTacToeActivity extends AppCompatActivity {
             mBoardButtons[location].setTextColor(Color.rgb(0, 200, 0));
         else
             mBoardButtons[location].setTextColor(Color.rgb(200, 0, 0));
+    }
+
+    private void displayScores(){
+        mTiesScoreTextView.setText(String.valueOf(mTies));
+        mHumanScoreTextView.setText(String.valueOf(mHumanWins));
+        mAndroidScoreTextView.setText(String.valueOf(mComputerWins));
     }
 }
