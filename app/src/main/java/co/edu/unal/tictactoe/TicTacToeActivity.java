@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 public class TicTacToeActivity extends AppCompatActivity {
 
+    int selected = -1;
     private TicTacToeGame mGame;
     // Buttons making up the board
     private Button[] mBoardButtons;
@@ -41,16 +42,18 @@ public class TicTacToeActivity extends AppCompatActivity {
                 };
                 // TODO: Set selected, an integer (0 to n-1), for the Difficulty dialog.
                 // selected is the radio button that should be selected.
-                builder.setSingleChoiceItems(levels, selected,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int item) {
-                                dialog.dismiss(); // Close dialog
-                                // TODO: Set the diff level of mGame based on which item was selected.
-                                // Display the selected difficulty level
-                                Toast.makeText(getApplicationContext(), levels[item],
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                builder.setSingleChoiceItems(levels, selected, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        dialog.dismiss(); // Close dialog
+                        // TODO: Set the diff level of mGame based on which item was selected.
+                        TicTacToeGame.DifficultyLevel newDiff = TicTacToeGame.DifficultyLevel.valueOf(levels[item].toString());
+                        mGame.setDifficultyLevel(newDiff);
+                        //mGame.setDifficultyLevel(TicTacToeGame.DifficultyLevel.valueOf(levels[item].toString()) );
+                        // Display the selected difficulty level
+                        Toast.makeText(getApplicationContext(), levels[item], Toast.LENGTH_SHORT).show();
+                        startNewGame();
+                    }
+                });
                 dialog = builder.create();
                 break;
             case DIALOG_QUIT_ID:
@@ -110,7 +113,9 @@ public class TicTacToeActivity extends AppCompatActivity {
         mBoardButtons[7] = findViewById(R.id.eight);
         mBoardButtons[8] = findViewById(R.id.nine);
         mInfoTextView = findViewById(R.id.information);
+
         mGame = new TicTacToeGame();
+        selected = mGame.getDifficultyLevel().ordinal();
         startNewGame();
     }
 

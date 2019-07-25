@@ -89,7 +89,7 @@ class TicTacToeGame {
         if (mDifficultyLevel == DifficultyLevel.Easy)
             move = getRandomMove();
         else if (mDifficultyLevel == DifficultyLevel.Harder) {
-            move = getWinningMove();
+            move = getBlockingMove();
         }
         else if (mDifficultyLevel == DifficultyLevel.Expert) {
             move = getWinningMove();
