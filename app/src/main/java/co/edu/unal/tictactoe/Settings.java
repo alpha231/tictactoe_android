@@ -18,7 +18,7 @@ public class Settings extends PreferenceActivity {
         final ListPreference difficultyLevelPref = (ListPreference)findPreference("difficulty_level");
         String difficulty = prefs.getString("difficulty_level",
                 getResources().getString(R.string.difficulty_expert));
-        difficultyLevelPref.setSummary((CharSequence) difficulty);
+        difficultyLevelPref.setSummary(difficulty);
         difficultyLevelPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -26,7 +26,7 @@ public class Settings extends PreferenceActivity {
 // Since we are handling the pref, we must save it
                 SharedPreferences.Editor ed = prefs.edit();
                 ed.putString("difficulty_level", newValue.toString());
-                ed.commit();
+                ed.apply();
                 return true;
             }
         });

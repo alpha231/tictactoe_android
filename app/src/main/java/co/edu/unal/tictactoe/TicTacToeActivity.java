@@ -23,9 +23,14 @@ public class TicTacToeActivity extends AppCompatActivity {
     private TicTacToeGame mGame;
     // Buttons making up the board
     private Button[] mBoardButtons;
-    // Various text displayed
+    private TextView mHumanScoreTextView;
+    private TextView mTiesScoreTextView;
+    private TextView mAndroidScoreTextView;
     private TextView mInfoTextView;
     private boolean mGameOver;
+    private int mHumanWins;
+    private int mComputerWins;
+    private int mTies;
     static final int DIALOG_DIFFICULTY_ID = 0;
     static final int DIALOG_QUIT_ID = 1;
 
@@ -46,6 +51,10 @@ public class TicTacToeActivity extends AppCompatActivity {
         mBoardButtons[7] = findViewById(R.id.eight);
         mBoardButtons[8] = findViewById(R.id.nine);
         mInfoTextView = findViewById(R.id.information);
+
+        mHumanScoreTextView = findViewById(R.id.humanW);
+        mTiesScoreTextView = findViewById(R.id.tiesW);
+        mAndroidScoreTextView = findViewById(R.id.androidW);
 
 // Restore the scores from the persistent preference data source
 
@@ -158,9 +167,9 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         outState.putCharArray("board", mGame.getBoardState());
         outState.putBoolean("mGameOver", mGameOver);
-        //outState.putInt("mHumanWins", Integer.valueOf(mHumanWins));
-        //outState.putInt("mComputerWins", Integer.valueOf(mComputerWins));
-        //outState.putInt("mTies", Integer.valueOf(mTies));
+        outState.putInt("mHumanWins", mHumanWins);
+        outState.putInt("mComputerWins", mComputerWins);
+        outState.putInt("mTies", mTies);
         outState.putCharSequence("info", mInfoTextView.getText());
         //outState.putChar("mGoFirst", mGoFirst);
     }
@@ -173,15 +182,19 @@ public class TicTacToeActivity extends AppCompatActivity {
         mGame.setBoardState(mb);
         mGameOver = savedInstanceState.getBoolean("mGameOver");
         mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
-        //mHumanWins=savedInstanceState.getInt("mHumanWins");
-        //mComputerWins=savedInstanceState.getInt("mComputerWins");
-        //mTies=savedInstanceState.getInt("mTies");
+        mHumanWins=savedInstanceState.getInt("mHumanWins");
+        mComputerWins=savedInstanceState.getInt("mComputerWins");
+        mTies=savedInstanceState.getInt("mTies");
         //mGoFirst=savedInstanceState.getChar("mGoFirst");
+        assert mb != null;
         for (int i = 0; i < mb.length; i++) {
             if (mb[i] != TicTacToeGame.OPEN_SPOT) {
                 setMove(mb[i], i);
             }
         }
+        mTiesScoreTextView.setText(String.valueOf(mTies));
+        mHumanScoreTextView.setText(String.valueOf(mHumanWins));
+        mAndroidScoreTextView.setText(String.valueOf(mComputerWins));
     }
 
     // Set up the game board.
@@ -196,6 +209,7 @@ public class TicTacToeActivity extends AppCompatActivity {
             mBoardButtons[i].setEnabled(true);
             mBoardButtons[i].setOnClickListener(new ButtonClickListener(i));
         }
+
         // Human goes first
         mInfoTextView.setText(R.string.first_human);
     }
@@ -226,16 +240,20 @@ public class TicTacToeActivity extends AppCompatActivity {
                     mInfoTextView.setText(R.string.turn_human);
                 else if (winner == 1) {
                     mInfoTextView.setText(R.string.result_tie);
+                    mTies++;
+                    mTiesScoreTextView.setText(String.valueOf(mTies));
                     mGameOver = true;
                 } else if (winner == 2) {
                     mInfoTextView.setText(R.string.result_human_wins);
-                    //mHumanWins++;
-                    //mHumanScoreTextView.setText(Integer.toString(mHumanWins));
+                    mHumanWins++;
+                    mHumanScoreTextView.setText(String.valueOf(mHumanWins));
                     //String defaultMessage = getResources().getString(R.string.result_human_wins);
                     //mInfoTextView.setText(mPrefs.getString("victory_message", defaultMessage));
                     mGameOver = true;
                 } else if (winner == 3) {
                     mInfoTextView.setText(R.string.result_computer_wins);
+                    mComputerWins++;
+                    mAndroidScoreTextView.setText(String.valueOf(mComputerWins));
                     mGameOver = true;
                 }
             }

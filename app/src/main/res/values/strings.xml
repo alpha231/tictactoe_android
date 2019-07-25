@@ -26,4 +26,8 @@
     <string name="quit_question">Are you sure you want to quit?</string>
     <string name="no">No</string>
     <string name="yes">Yes</string>
+    <string name="human">Human</string>
+    <string name="ties">Ties</string>
+    <string name="android">Android</string>
+    <string name="defaultWins">0</string>
 </resources>
