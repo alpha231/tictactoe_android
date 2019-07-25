@@ -116,7 +116,33 @@ public class TicTacToeActivity extends AppCompatActivity {
 
         mGame = new TicTacToeGame();
         selected = mGame.getDifficultyLevel().ordinal();
-        startNewGame();
+
+        if (savedInstanceState==null){
+            startNewGame();
+        }
+        else {
+            mGame.setBoardState(savedInstanceState.getCharArray("board"));
+            mGameOver=savedInstanceState.getBoolean("mGameOver");
+            mInfoTextView.setText(savedInstanceState.getCharSequence("info"));
+            //mHumanWins=savedInstanceState.getInt("mHumanWins");
+            //mComputerWins=savedInstanceState.getInt("mComputerWins");
+            //mTies=savedInstanceState.getInt("mTies");
+            //mGoFirst=savedInstanceState.getChar("mGoFirst");
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+
+        outState.putCharArray("board", mGame.getBoardState());
+        outState.putBoolean("mGameOver", mGameOver);
+        //outState.putInt("mHumanWins", Integer.valueOf(mHumanWins));
+        //outState.putInt("mComputerWins", Integer.valueOf(mComputerWins));
+        //outState.putInt("mTies", Integer.valueOf(mTies));
+        outState.putCharSequence("info",mInfoTextView.getText());
+        //outState.putChar("mGoFirst", mGoFirst);
+
     }
 
     // Set up the game board.

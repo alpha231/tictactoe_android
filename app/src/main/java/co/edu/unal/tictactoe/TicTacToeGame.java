@@ -4,8 +4,19 @@ import java.util.Random;
 
 class TicTacToeGame {
 
+
+    private char[] mBoard = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+    char[] getBoardState() {
+        return mBoard;
+    }
+    void setBoardState(char[] boards) {
+        mBoard = boards;
+    }
+
     // The computer's difficulty levels
-    public enum DifficultyLevel {Easy, Harder, Expert}
+    public enum DifficultyLevel {
+        Easy, Harder, Expert
+    }
 
     // Current difficulty level
     private DifficultyLevel mDifficultyLevel = DifficultyLevel.Expert;
@@ -13,10 +24,11 @@ class TicTacToeGame {
     public DifficultyLevel getDifficultyLevel() {
         return mDifficultyLevel;
     }
+
     public void setDifficultyLevel(DifficultyLevel difficultyLevel) {
         mDifficultyLevel = difficultyLevel;
     }
-    private char[] mBoard = {'1', '2', '3', '4', '5', '6', '7', '8', '9'};
+
     static final int BOARD_SIZE = 9;
 
     static final char HUMAN_PLAYER = 'X';
@@ -90,8 +102,7 @@ class TicTacToeGame {
             move = getRandomMove();
         else if (mDifficultyLevel == DifficultyLevel.Harder) {
             move = getBlockingMove();
-        }
-        else if (mDifficultyLevel == DifficultyLevel.Expert) {
+        } else if (mDifficultyLevel == DifficultyLevel.Expert) {
             move = getWinningMove();
         }
         return move;
